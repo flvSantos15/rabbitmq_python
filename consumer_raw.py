@@ -2,7 +2,7 @@ import pika
 
 
 def minha_calback(channel, method, properties, body):
-  print('Mensagem recebida: ', body)
+  print('Mensagem recebida:', body)
 
 connection_parameters = pika.ConnectionParameters(
   host='localhost',
