@@ -1,3 +1,6 @@
+import json
+from typing import Dict
+
 import pika
 
 
@@ -24,12 +27,15 @@ class RabbitMQPublisher:
     channel = pika.BlockingConnection(connection_parameters).channel()
     return channel
   
-  def send_message(self, body):
+  def send_message(self, body: Dict):
     self.__channel.basic_publish(
       exchange=self.__exchange,
       routing_key=self.__routing_key,
-      body=body,
+      body=json.dumps(body),
       properties=pika.BasicProperties(
         delivery_mode=2 # make message persistent
       )
     )
+
+rabbitmq_publisher = RabbitMQPublisher()
+rabbitmq_publisher.send_message({ "msg": "hello world!!!" })
